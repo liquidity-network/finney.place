@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: mongo
+    volumes:
+      - ./data:/data/db
+  place:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
