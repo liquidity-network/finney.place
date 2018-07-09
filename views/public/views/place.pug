@@ -8,12 +8,6 @@
     .canvas-container
         include pixel-data
         .button-ctn
-            .popout-btns
-                .popout-control.control.btn.btn-default(data-tab-name="chat"): i.fa.fa-comments.fa-fw
-                .popout-control.control.btn.btn-default(data-tab-name="leaderboard"): i.fa.fa-trophy.fa-fw
-                if user
-                    .popout-control.control.btn.btn-default(data-tab-name="achievements"): i.fa.fa-star.fa-fw
-                .popout-control.control.btn.btn-default(data-tab-name="active-users"): i.fa.fa-users.fa-fw
             .control-btns
                 .control.btn.btn-success#grid-button
                 .btn-group(role="group", aria-label="Zoom")
@@ -53,8 +47,6 @@
                             span.menu-heading Warps
                             #warps-ctn Loading warps…
                     #palette-content-ctn
-                        .overlay#sign-in-reminder
-                            span #[a#overlay-sign-in(data-place-trigger="openSignInDialog", href="javascript:void(0)") Sign in] or #[a#overlay-sign-up(data-place-trigger="openSignUpDialog", href="javascript:void(0)") sign up] to start placing!
                         .overlay#placing-modal Placing…
                         .overlay#place-timer: span
                         .overlay#availability-loading-modal

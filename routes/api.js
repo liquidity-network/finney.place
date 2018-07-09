@@ -1,21 +1,15 @@
 const express = require("express");
 const Ratelimit = require("express-brute");
-const PasswordChangeController = require("../controllers/PasswordChangeController");
 const JWTController = require("../controllers/JWTController");
-const DeactivateAccountController = require("../controllers/DeactivateAccountController");
 const BoardImageController = require("../controllers/BoardImageController");
 const PlaceController = require("../controllers/PlaceController");
 const PixelInfoController = require("../controllers/PixelInfoController");
 const FeatureAvailabilityController = require("../controllers/FeatureAvailabilityController");
-const ChatController = require("../controllers/ChatController");
 const AdminActionsController = require("../controllers/AdminActionsController");
 const ModeratorUserController = require("../controllers/ModeratorUserController");
 const AuthController = require("../controllers/AuthController");
 const AccountPageController = require("../controllers/AccountPageController");
-const TOTPSetupController = require("../controllers/TOTPSetupController");
 const ChangelogController = require("../controllers/ChangelogController");
-const WarpController = require("../controllers/WarpController");
-const UserDownloadController = require("../controllers/UserDownloadController");
 
 function APIRouter(app) {
     let router = express.Router();
@@ -55,17 +49,6 @@ function APIRouter(app) {
         }).catch(err => next());
     });
 
-    const requireUser = (req, res, next) => {
-        if (!req.user) return res.status(401).json({
-            success: false,
-            error: {
-                message: "You are not signed in.",
-                code: "not_signed_in"
-            }
-        });
-        next()
-    }
-
     // Normal APIs
 
     const signupRatelimit = new Ratelimit(require("../util/RatelimitStore")(), {
@@ -73,7 +56,7 @@ function APIRouter(app) {
         attachResetToRequest: false,
         refreshTimeoutOnRequest: false,
         minWait: 60 * 60 * 1000, // 1 hour
-        maxWait: 60 * 60 * 1000, // 1 hour, 
+        maxWait: 60 * 60 * 1000, // 1 hour,
         failCallback: (req, res, next, nextValidRequestDate) => {
             res.status(429).json({success: false, error:{message: "You're doing that too fast."}});
         },
@@ -86,42 +69,26 @@ function APIRouter(app) {
 
     router.post("/identify", JWTController.identifyAPIUser);
 
-    router.route("/user/totp-setup", requireUser).get([requireUser, TOTPSetupController.getTOTPSetup]).post([requireUser, TOTPSetupController.postTOTPSetup]).delete([requireUser, TOTPSetupController.deleteTOTPSetup]);
-    router.post("/user/change-password", requireUser, PasswordChangeController.postSelfServePassword);
-
-    router.post("/user/deactivate", requireUser, DeactivateAccountController.postAPIDeactivate);
-    router.delete("/user", requireUser, DeactivateAccountController.deleteAccount);
-
-    router.get("/session", requireUser, function(req, res, next) {
-        res.json({
-            success: true,
-            user: req.user.toInfo(app)
-        });
-    });
-
     router.get("/board-image", BoardImageController.getAPIBoardImage);
-    
-    router.get("/feature-availability", FeatureAvailabilityController.getAvailability);
-    router.post("/beta-signup", requireUser, FeatureAvailabilityController.betaSignup);
-    
-    router.post("/place", requireUser, PlaceController.postAPIPixel);
 
-    router.get("/timer", requireUser, PlaceController.getAPITimer);
+    router.get("/feature-availability", FeatureAvailabilityController.getAvailability);
+
+    router.post("/place", PlaceController.postAPIPixel);
+
+    router.get("/timer", PlaceController.getAPITimer);
 
     const accountDataRatelimit = new Ratelimit(require("../util/RatelimitStore")(), {
         freeRetries: 1, // 1 download per hour
         attachResetToRequest: false,
         refreshTimeoutOnRequest: false,
         minWait: 60 * 60 * 1000, // 1 hour
-        maxWait: 3 * 60 * 60 * 1000, // 3 hour, 
+        maxWait: 3 * 60 * 60 * 1000, // 3 hour,
         failCallback: (req, res, next, nextValidRequestDate) => {
             res.status(429).json({success: false, error:{message: "You're doing that too fast."}});
         },
         handleStoreError: (error) => app.reportError("Account data rate limit store error:", error),
         proxyDepth: app.config.trustProxyDepth
     });
-
-    router.get("/account-data", [requireUser, accountDataRatelimit.prevent], UserDownloadController.getAccountData);
 
     router.get("/online", function(req, res, next) {
         return res.json({
@@ -184,16 +151,10 @@ function APIRouter(app) {
         proxyDepth: app.config.trustProxyDepth
     });
 
-    router.route("/chat").get(ChatController.getAPIChat).post([requireUser, chatRatelimit.prevent], ChatController.postAPIChatMessage);
-
     router.get("/user/:username", AccountPageController.getAPIAccount);
 
     router.get("/changelog/latest", ChangelogController.getLatestChangelog);
-    router.route("/changelog/missed").get([requireUser, ChangelogController.getMissedChangelogs]).post([requireUser, ChangelogController.postMissedChangelogs]).delete([requireUser, ChangelogController.deleteMissedChangelogs]);
     router.get("/changelog/:version", ChangelogController.getChangelog);
-
-    router.route("/warps").get([requireUser, WarpController.getWarps]).post([requireUser, WarpController.postWarp]);
-    router.route("/warps/:id").get([requireUser, WarpController.getWarp]).delete([requireUser, WarpController.deleteWarp]);
 
     // Admin APIs
 
@@ -207,7 +168,7 @@ function APIRouter(app) {
     router.get("/admin/toggle_mod", app.adminMiddleware, ModeratorUserController.postAPIToggleModerator);
     router.get("/admin/disable_totp", app.adminMiddleware, ModeratorUserController.postAPIDisableTOTP);
     router.get("/admin/force_pw_reset", app.adminMiddleware, ModeratorUserController.postAPIForcePasswordReset);
-    
+
     // Mod APIs
 
     router.get("/mod/toggle_ban", app.modMiddleware, ModeratorUserController.postAPIToggleBan);

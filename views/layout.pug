@@ -109,31 +109,18 @@ html(lang="en")
                 .
                   Community #[span.caret]
               ul.dropdown-menu
-                +renderNavItem("Official Subreddit", "https://www.reddit.com/r/place20", "reddit-alien")
-                +renderNavItem("Chat on Discord", "https://discord.gg/CgC8FTg", "comments")
+                +renderNavItem("Official Website", "https://liquidity.network", "university")
+                +renderNavItem("Chat on Telegram", "https://t.me/liquiditynetwork", "telegram")
                 +renderNavItem("Timelapses", "https://timelapse.canvas.place", "clock-o")
                 +renderNavItem("Source Code", "https://www.github.com/dynastic/place", "github")
-            +renderNavItem("Donate", "https://www.paypal.me/AppleBetasPay", "money")
             if user && userMod
               +renderNavItem(userAdmin ? "Admin" : "Moderator", "/admin", "gavel")
             +getViewExtensions("nav_right")
           ul.nav.navbar-nav.navbar-right
             +getViewExtensions("nav_user_left")
-            if user
-              li.dropdown
-                a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
-                  i.fa.fa-user.fa-fw
-                  .
-                    #[span(name="user-dropdown") #{user.usernameSet ? user.name : ""}] #[span.caret]
-                ul.dropdown-menu
-                  +renderNavItem("Your Profile", "/account", "user-circle-o")
-                  +renderNavItem("What's New", "javascript:void(0)", "list")
-                  +renderNavItem("Rules", "/guidelines", "handshake-o")
-                  li.divider(role="separator")
-                  +renderNavItem("Sign Out", `/signout?redirectURL=${redirectURLPart}`, "sign-out")
-            else
-              li#nav-auth-link
-                a.btn.btn-sm.btn-nav-auth-link(href=(path == "/" ? "javascript:void(0)" : `/#signup&redirectURL=${redirectURLPart}`), data-place-trigger="openAuthDialog") Get Started
+            li#nav-auth-link
+              a.btn.btn-sm.btn-nav-auth-link(href=(path == "/" ? "javascript:void(0)" : `/#signup&redirectURL=${redirectURLPart}`), data-place-trigger="openAuthDialog") Submit&nbsp
+                i.fa.fa-shopping-cart
             if needsHelp
               +renderNavItem("Help", "javascript:void(0)", "question-circle", false)
             +getViewExtensions("nav_user_right")
@@ -168,7 +155,7 @@ html(lang="en")
                     if hasPP
                         li: a(href="/privacy") Privacy Policy
         +getViewExtensions("footer")
-      
+
     // Scripts
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")

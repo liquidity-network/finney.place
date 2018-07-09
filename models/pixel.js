@@ -94,7 +94,7 @@ PixelSchema.statics.addPixel = function(colour, x, y, userID, app, callback) {
                 });
             }
             // change our appropriate fields
-            pixel.editorID = userID;
+            // pixel.editorID = Schema.ObjectId();
             pixel.colourR = colour.r;
             pixel.colourG = colour.g;
             pixel.colourB = colour.b;
@@ -104,7 +104,7 @@ PixelSchema.statics.addPixel = function(colour, x, y, userID, app, callback) {
                 callback(true, null); // report back that we changed the pixel
             }).catch((err) => {
                 app.reportError("Error saving pixel for update: " + err);
-                callback(null, { message: "An error occurred while trying to place the pixel." });
+                callback(null, { message: "An error occurred while trying to place the pixel." + err });
             })
         } else {
             // report back that we didn't change the pixel

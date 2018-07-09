@@ -10,23 +10,18 @@ const AuthController = require("../controllers/AuthController");
 function PublicRouter(app) {
     let router = express.Router();
 
-    const requireUser = (req, res, next) => {
-        if (!req.user) return res.status(401).redirect("/#signin");
-        next();
-    }
-
     const whitelistedTOSPaths = ["/privacy", "/guidelines", "/privacy-policy", "/rules", "/community-guidelines"];
     router.use(function(req, res, next) {
         if (req.path == "/signout") return next(); // Allow the user to sign out
         if (req.user && !req.user.usernameSet && req.user.OAuthName) { // If the user has no username...
             if (req.path == "/pick-username" && req.method == "POST") return next(); // Allow the user to POST their new username
-            
+
             const config = req.place.config;
             if (config.maintenance && !config.maintenance.allowSignups) {
                 req.logout();
                 return res.redirect(403, "/");
             }
-            
+
             return req.responseFactory.sendRenderedResponse("public/pick-username", {
                 captcha: req.place.enableCaptcha,
                 username: req.user.OAuthName.replace(/[^[a-zA-Z0-9-_]/g, "-").substring(0, 20),
@@ -59,9 +54,6 @@ function PublicRouter(app) {
             next();
         });
     });
-
-    router.post("/pick-username", [requireUser, UsernamePickerController.postUsername]);
-    router.post("/force-pw-reset", [requireUser, PasswordChangeController.postSelfServeForcedPassword]);
 
     router.get("/", function(req, res) {
         req.responseFactory.sendRenderedResponse("public/index", { captcha: req.place.enableCaptcha });
@@ -97,9 +89,6 @@ function PublicRouter(app) {
     router.get("/signup", function(req, res, next) {
         res.redirect("/#signup");
     });
-    router.get("/signout", [requireUser, AuthController.getSignOut]);
-
-    router.get("/account", [requireUser, AccountPageController.getOwnAccount]);
     router.get("/user/:userID", AccountPageController.getAccountByID);
     router.get("/@:username", AccountPageController.getAccount);
 

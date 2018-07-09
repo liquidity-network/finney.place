@@ -9,15 +9,6 @@ var size;
 var SignInDialogController = DialogController($("#sign-in-dialog"));
 var ChangelogDialogController = DialogController($("#changelog-dialog"));
 var HelpDialogController = DialogController($("#help-dialog"));
-var BetaDialogController = DialogController($("#beta-dialog"));
-BetaDialogController.dialog.find("#signup").click(function() {
-    placeAjax.post("/api/beta-signup", null, null).then(data => {
-        if (data.success) return BetaDialogController.hide();
-        BetaDialogController.showErrorOnTab("enroll", "An error occured whilst signing you up for the beta program.");
-    }).catch(e => {
-        BetaDialogController.showErrorOnTab("enroll", "An error occured whilst signing you up for the beta program.");
-    })
-})
 
 ChangelogDialogController.dialog.find("#changelog-opt-out").click(function() {
     placeAjax.delete("/api/changelog/missed");
@@ -245,7 +236,7 @@ var place = {
         $(this.userCountElement).show();
 
         this.getCanvasImage();
-        
+
         this.determineFeatureAvailability();
 
         this.initializeSocketConnection();
@@ -1271,7 +1262,7 @@ var place = {
     saveTemplates: function() {
         localStorage.setItem("templates", JSON.stringify(this.templates || []));
     },
-    
+
     layoutTemplates: function() {
         if(!this.templatesEnabled) return $("#templates-ctn").text("Coming Soon");
         if(!this.templates) this.loadTemplates();
@@ -1300,7 +1291,7 @@ var place = {
             $("<span>").addClass("warp-coordinates").text("Overlay an image on the canvas to use as a guide for your art.").appendTo(explanation);
         }
     },
-    
+
     addTemplateClicked: function() {
         var app = this;
         $("<input>").attr("type", "file").attr("accept", ".png,.jpg,.gif,.jpeg,.webm,.apng,.svg").hide().on("change", function() {
@@ -1320,7 +1311,7 @@ var place = {
            reader.readAsDataURL(this.files[0]);
         }).appendTo($("body")).click();
     },
-    
+
     deleteTemplateClicked: function(elem, event) {
         event.preventDefault();
         event.stopPropagation();
@@ -1331,7 +1322,7 @@ var place = {
         this.layoutTemplates();
         this.saveTemplates();
     },
-    
+
     moveTemplateHereClicked: function(elem, event) {
         event.preventDefault();
         event.stopPropagation();
@@ -1341,7 +1332,7 @@ var place = {
         this.layoutTemplates();
         this.saveTemplates();
     },
-    
+
     changeOpacityOfTemplateClicked: function(elem, event) {
         event.preventDefault();
         event.stopPropagation();
@@ -1354,7 +1345,7 @@ var place = {
         this.layoutTemplates();
         this.saveTemplates();
     },
-    
+
     changeScaleOfTemplateClicked: function(elem, event) {
         event.preventDefault();
         event.stopPropagation();
@@ -1366,7 +1357,7 @@ var place = {
         this.layoutTemplates();
         this.saveTemplates();
     },
-    
+
     moveToTemplateClicked: function(elem, event) {
         event.preventDefault();
         event.stopPropagation();
@@ -1504,7 +1495,6 @@ if(place.isSignedIn()) {
 $(document).ready(function() {
     if(hashHandler.getHash()["beta"] != null) {
         hashHandler.deleteHashKey("beta");
-        BetaDialogController.show();
     }
 });
 

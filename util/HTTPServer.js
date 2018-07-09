@@ -12,11 +12,11 @@ const path = require("path");
 function HTTPServer(app) {
     var server = express();
     var httpServer = require("http").createServer(server);
-    
+
     // Setup for parameters and bodies
     server.use(bodyParser.urlencoded({extended: false}));
     server.use(bodyParser.json());
-    
+
     server.use(helmet());
 
     // Set rendering engine
@@ -27,7 +27,7 @@ function HTTPServer(app) {
         server.use(express.static("public"));
         // Register module public directories
         directories.forEach((dir) => server.use(dir.root, dir.middleware));
-        
+
         // Log to console
         if (app.config.debug) {
             // Log requests to console
@@ -49,7 +49,7 @@ function HTTPServer(app) {
 
         if (app.logger.raven) server.use(app.logger.raven.requestHandler());
         if (app.logger.bugsnag) server.use(app.logger.bugsnag.requestHandler);
-        
+
         // Setup passport for auth
         server.use(session({
             secret: app.config.secret,
@@ -87,7 +87,7 @@ function HTTPServer(app) {
                     user.deletionDate = null;
                     user.save();
                 }
-            
+
                 if(user && user.loginError()) {
                     req.session.passport = null;
                     return res.redirect("/#signin&loginerror=1&logintext=" + encodeURIComponent(user.loginError().message));
@@ -116,7 +116,7 @@ function HTTPServer(app) {
             }
             next();
         });
-        
+
         server.use((req, res, next) => app.moduleManager.processRequest(req, res, next));
 
         modulesWithRoutes.forEach((moduleRoutes) => {
