@@ -1,6 +1,6 @@
 .dialog-ctn
     .dialog-overlay
-    .dialog#sign-in-dialog
+    .dialog.dialog-lg#sign-in-dialog
         .close &times;
         .pages
             .active(tab-name="sign-up")
@@ -9,15 +9,27 @@
                     h1 Payment
                     p.subhead Let's make your artwork alive
                 if !config.maintenance || config.maintenance.allowSignups
-                    label(for="pixelsOrder") Pixels
-                    input.form-control#pixelsOrder(type="text", autocomplete="pixels", placeholder="Pixels", name="pixels", autofocus, autocorrect="off", autocapitalize="off", spellcheck="false", disabled)
-                    label(for="priceOrder") Price
-                    input.form-control#priceOrder(type="text", autocomplete="price", placeholder="0 WEI", name="price", autofocus, autocorrect="off", autocapitalize="off", spellcheck="false", disabled)
-                    p.subhead
-                      | Open your&nbsp
-                      a(href="https://mobile.achievement.network") Liquidity Mobile Wallet
-                      |  to submit this wonderful piece of art of yours
-                    h4.qrcode QR Code here (5 destinations(3*41), amount(32), currency(3), uuid(16), custom field==hash(32))
+                    div.form-row.flex.center
+                      label(for="pixelsOrder") Pixels
+                      input.form-control#pixelsOrder(type="number", value=10, placeholder="Pixels", name="pixels", disabled)
+                    div.form-row.flex.center
+                      label(for="priceOrder") Price in wei
+                      input.form-control#priceOrder(type="number", value=10, placeholder="0 WEI", name="price", disabled)
+                    div.flex
+                      div.is-6.mr-1
+                        p.subhead
+                          | Open your&nbsp;
+                          a(href="https://mobile.achievement.network", target="_blank") Liquidity Mobile Wallet
+                          |  to submit this wonderful piece of art of yours
+                        div.flex.center
+                          canvas#transactionQRCode
+                      div.is-6.ml-1
+                        p.subhead
+                          | If you already have a wallet configure on&nbsp;
+                          a(href="https://wallet.achievement.network", target="_blank") https://wallet.liquidity.network
+                          | , you can click here
+                        div.flex.center.mt-1
+                          button.btn.btn-popping.btn-lg.is-12(type="submit", onclick="alert('Not implemented yet')") Web Wallet
                 else
                     br
                     div.alert.alert-danger

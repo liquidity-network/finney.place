@@ -119,7 +119,7 @@ function DialogController(dialog) {
             return this.dialog.parent().hasClass("show");
         },
 
-        shake: function() {                
+        shake: function() {
             this.dialog.addClass("shake");
             setTimeout(() => { this.dialog.removeClass("shake"); }, 500);
         },
@@ -167,14 +167,57 @@ function DialogController(dialog) {
             } else applyClasses();
         },
 
+        generateQRCode: function() {
+            const transaction = {
+                destinations: [
+                    {
+                        network: '*',
+                        hub_contract: ''.padEnd(20, 'v'),
+                        wallet_address: ''.padEnd(20, 'w')
+                    },
+                    {
+                        network: '*',
+                        hub_contract: ''.padEnd(20, 'v'),
+                        wallet_address: ''.padEnd(20, 'w')
+                    },
+                    {
+                        network: '*',
+                        hub_contract: ''.padEnd(20, 'v'),
+                        wallet_address: ''.padEnd(20, 'w')
+                    }
+                ],
+                amount: place.getPrice(),
+                currency: 'ETH',
+                uuid: ''.padEnd('u'),
+                custom_fields: ''.padEnd(32, '0')
+            };
+
+            const data = [
+                transaction.destinations.reduce((acc, dest) => acc + Object.values(dest).join(''), ''),
+                transaction.amount,
+                transaction.currency,
+                transaction.uuid,
+                transaction.custom_fields
+            ].join('');
+
+            const canvas = document.querySelector('#transactionQRCode');
+            QRCode.toCanvas(canvas, data, { width: 300 }, function (err) {})
+        },
+
+        updateInvoice: function () {
+            document.querySelector('#pixelsOrder').value = place.selectedPixels.length;
+            document.querySelector('#priceOrder').value = place.getPrice();
+            this.generateQRCode();
+        },
+
         show: function(tab = null) {
             if(this.isShowing()) return;
-            if(tab) this.switchTab(tab, false);
+            this.updateInvoice();
             this.dialog.parent().addClass("show");
             hashHandler.modifyHash({"d": 1});
         },
 
-        hide: function(){ 
+        hide: function(){
             this.dialog.find(".tab-error").remove();
             if(this.currentTab == "2fa-auth") {
                 this.dialog.find(".pages > .active form").trigger("reset");
@@ -229,21 +272,21 @@ if(("standalone" in window.navigator) && window.navigator.standalone){
 
 	// If you want to prevent remote links in standalone web apps opening Mobile Safari, change 'remotes' to true
 	var noddy, remotes = false;
-	
+
 	document.addEventListener("click", function(event) {
-		
+
 		noddy = event.target;
-		
+
 		// Bubble up until we hit link or top HTML element. Warning: BODY element is not compulsory so better to stop on HTML
 		while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
 	        noddy = noddy.parentNode;
 	    }
-		
+
 		if("href" in noddy && noddy.href.indexOf("http") !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes))
 		{
 			event.preventDefault();
 			document.location.href = noddy.href;
 		}
-	
+
 	}, false);
 }

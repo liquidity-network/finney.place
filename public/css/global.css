@@ -255,7 +255,7 @@ body:not([data-user-is-mod=true]) .actions-ctn, body:not([data-user-is-admin=tru
     -webkit-backdrop-filter: blur(5px);
   }
 }
-  
+
 @-webkit-keyframes shake {
     8%, 41% {
         -webkit-transform: translateX(-10px);
@@ -318,7 +318,7 @@ body:not([data-user-is-mod=true]) .actions-ctn, body:not([data-user-is-admin=tru
     cursor: default;
 }
 
-.dialog, .dialog.dialog-sm {
+#sign, .dialog.dialog-sm {
     max-width: 465px;
 }
 
@@ -592,6 +592,16 @@ body:not([data-user-is-mod=true]) .actions-ctn, body:not([data-user-is-admin=tru
     color: #4ACDFF;
 }
 
+.btn.btn-popping.btn-lg {
+    font-size: 24px;
+    box-shadow: 0 2px 10px 0 rgba(57,56,56,0.2);
+}
+
+.btn.btn-popping.btn-md {
+    font-size: 16px;
+    box-shadow: 0 2px 10px 0 rgba(57,56,56,0.2);
+}
+
 .btn.btn-popping.btn-sm {
     font-size: 13px;
     box-shadow: 0 2px 10px 0 rgba(57,56,56,0.2);
@@ -643,37 +653,6 @@ body:not([data-user-is-mod=true]) .actions-ctn, body:not([data-user-is-admin=tru
 
 .dialog input[type=checkbox]:active, .btn.btn.btn-popping:active {
     transform: scale(0.9);
-}
-
-.dialog .send-section {
-    padding-top: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.dialog .send-section .separator {
-    height: 30px;
-    width: 1px;
-    background: #E9E9E9;
-    display: inline-block;
-    margin: 0 12px;
-}
-
-.dialog .send-section .oauth-btns {
-    overflow-y: hidden;
-    overflow-x: auto;
-    height: 34px;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-}
-
-.dialog .send-section .oauth-btns > .btn {
-    margin-right: 2px;
-    display: inline-block;
-}
-
-.dialog .send-section .oauth-btns > .btn:last-child {
-    margin-right: 0;
 }
 
 .btn.btn-oauth {
@@ -922,4 +901,37 @@ table.table.table-contained, td {
         -webkit-backdrop-filter: blur(12px);
         backdrop-filter: blur(12px);
     }
+}
+
+.flex {
+    display: flex;
+}
+
+.flex.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.form-row> :not(:last-child) {
+    width: 20%;
+}
+
+.is-6 {
+    width: 50%;
+}
+
+.is-12 {
+    width: 100%;
+}
+
+.mt-1 {
+    margin-top: 15px;
+}
+
+.ml-1 {
+    margin-left: 10px;
+}
+
+.mr-1 {
+    margin-right: 10px;
 }

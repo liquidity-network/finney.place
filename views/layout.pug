@@ -117,9 +117,10 @@ html(lang="en")
               +renderNavItem(userAdmin ? "Admin" : "Moderator", "/admin", "gavel")
             +getViewExtensions("nav_right")
           ul.nav.navbar-nav.navbar-right
-            +getViewExtensions("nav_user_left")
+            li
+              a#price-button 0 wei
             li#nav-auth-link
-              a.btn.btn-sm.btn-nav-auth-link(href=(path == "/" ? "javascript:void(0)" : `/#signup&redirectURL=${redirectURLPart}`), data-place-trigger="openAuthDialog") Submit&nbsp
+              a.btn.btn-sm.btn-nav-auth-link(href="javascript:void(0)", data-place-trigger="openAuthDialog") Checkout &nbsp;
                 i.fa.fa-shopping-cart
             if needsHelp
               +renderNavItem("Help", "javascript:void(0)", "question-circle", false)
@@ -164,7 +165,7 @@ html(lang="en")
       script(src="https://cdn.ravenjs.com/3.25.2/raven.min.js", crossorigin="anonymous")
       script.
           Raven.config('#{config.publicRaven}').install();
-    - js.unshift("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", "/js/cookies-eu-banner.min.js", "/js/build/site.js");
+    - js.unshift("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", "/js/cookies-eu-banner.min.js", "/js/build/site.js", "/js/build/qrcode.js");
     each item in [...new Set(js)]
         script(src=item + "?v=" + resourceVersion)
     each item in [...new Set(jsSnippets.concat(jsModSnippets))]
