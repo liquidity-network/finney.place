@@ -1005,6 +1005,8 @@ const place = {
         const price = this.getPrice();
         elem.text(`${price} wei`);
         document.querySelector('.btn-nav-auth-link').disabled = price === 0;
+        elem.removeClass('bounce');
+        setTimeout(() => {elem.addClass('bounce')}, 1);
     },
 
     changePlaceTimerVisibility: function (visible) {

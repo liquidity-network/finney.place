@@ -167,8 +167,8 @@ function DialogController(dialog) {
             } else applyClasses();
         },
 
-        generateQRCode: function() {
-            const transaction = {
+        getInvoice: function () {
+            return {
                 destinations: [
                     {
                         network: '*',
@@ -191,6 +191,10 @@ function DialogController(dialog) {
                 uuid: ''.padEnd('u'),
                 custom_fields: ''.padEnd(32, '0')
             };
+        },
+
+        generateQRCode: function () {
+            const transaction = this.getInvoice();
 
             const data = [
                 transaction.destinations.reduce((acc, dest) => acc + Object.values(dest).join(''), ''),
@@ -204,10 +208,33 @@ function DialogController(dialog) {
             QRCode.toCanvas(canvas, data, { width: 300 }, function (err) {})
         },
 
+        generateWebWalletQuery: function () {
+            const transaction = this.getInvoice();
+            const button = document.querySelector('#webWalletQuery');
+            button.onclick = function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/api/invoice',
+                    data: JSON.stringify({
+                        invoice: transaction,
+                        pixels: place.selectedPixels
+                    }),
+                    success: function (data, textStatus, jqXHR) {
+                        if (typeof data.redirect === 'string') {
+                            window.location = data.redirect
+                        }
+                    },
+                    contentType: 'application/json',
+                    dataType: 'json'
+            });
+            }
+        },
+
         updateInvoice: function () {
             document.querySelector('#pixelsOrder').value = place.selectedPixels.length;
             document.querySelector('#priceOrder').value = place.getPrice();
             this.generateQRCode();
+            this.generateWebWalletQuery();
         },
 
         show: function(tab = null) {

@@ -10,6 +10,7 @@ const ModeratorUserController = require("../controllers/ModeratorUserController"
 const AuthController = require("../controllers/AuthController");
 const AccountPageController = require("../controllers/AccountPageController");
 const ChangelogController = require("../controllers/ChangelogController");
+const InvoiceController = require('../controllers/InvoiceController');
 
 function APIRouter(app) {
     let router = express.Router();
@@ -176,6 +177,8 @@ function APIRouter(app) {
     router.route("/mod/user_notes").get(app.modMiddleware, ModeratorUserController.getAPIUserNotes).post(app.modMiddleware, ModeratorUserController.postAPIUserNotes)
     router.get("/mod/similar_users/:userID", app.modMiddleware, ModeratorUserController.getAPISimilarUsers);
     router.get("/mod/actions", app.modMiddleware, ModeratorUserController.getAPIActions);
+
+    router.post("/invoice", InvoiceController.submitInvoice.bind({app: app}));
 
     return router;
 }

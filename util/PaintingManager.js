@@ -110,7 +110,10 @@ function PaintingManager(app) {
                 if(!this.hasImage) return reject({message: "Our servers are currently getting ready. Please try again in a moment.", code: "not_ready"});
                 // Add to DB:
                 Pixel.addPixel(colour, x, y, 0, app, (changed, error) => {
-                    if (changed === null) return callback(null, error);
+                    if (changed === null) {
+                        app.logger.log('Painting Manager', error);
+                        return;
+                    }
 
                     const pixelData = {x: x, y: y, colour: colour};
                     a.pixelsToPaint.push(pixelData);
