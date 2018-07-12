@@ -169,27 +169,17 @@ function DialogController(dialog) {
 
         getInvoice: function () {
             return {
+                uuid: ''.padEnd(16, '1'),
                 destinations: [
                     {
-                        network: '*',
-                        hub_contract: ''.padEnd(20, 'v'),
-                        wallet_address: ''.padEnd(20, 'w')
-                    },
-                    {
-                        network: '*',
-                        hub_contract: ''.padEnd(20, 'v'),
-                        wallet_address: ''.padEnd(20, 'w')
-                    },
-                    {
-                        network: '*',
-                        hub_contract: ''.padEnd(20, 'v'),
-                        wallet_address: ''.padEnd(20, 'w')
+                        networkId: 1,
+                        contractAddress: '0x'.padEnd(40, '0'),
+                        walletAddresses: ['0x'.padEnd(40, '0')]
                     }
                 ],
-                amount: place.getPrice(),
+                amount: place.getPrice().toString(),
                 currency: 'ETH',
-                uuid: ''.padEnd('u'),
-                custom_fields: ''.padEnd(32, '0')
+                details: ''.padEnd(32, '0')
             };
         },
 

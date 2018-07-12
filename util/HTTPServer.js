@@ -125,8 +125,8 @@ function HTTPServer(app) {
 
         // Handle routes
         server.use("/api", require("../routes/api")(app));
-        server.use("/admin", require("../routes/admin")(app));
-        server.use("/auth", require("../routes/oauth")(app));
+        //server.use("/admin", require("../routes/admin")(app));
+        //server.use("/auth", require("../routes/oauth")(app));
         server.use("/", require("../routes/public")(app));
 
         if (app.logger.bugsnag) server.use(app.logger.bugsnag.errorHandler);

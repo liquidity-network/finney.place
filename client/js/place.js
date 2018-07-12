@@ -995,16 +995,16 @@ const place = {
     },
 
     getPrice: function () {
-        const pricePerPixel = 1; // In wei
-        return this.selectedPixels.length * pricePerPixel;
+        const pricePerPixel = new BigNumber(1); // In wei
+        return pricePerPixel.times(this.selectedPixels.length);
     },
 
     changePrice: function () {
         const elem = $(this.priceButton);
         elem.show();
         const price = this.getPrice();
-        elem.text(`${price} wei`);
-        document.querySelector('.btn-nav-auth-link').disabled = price === 0;
+        elem.text(`${price.toString()} wei`);
+        document.querySelector('.btn-nav-auth-link').disabled = price.isZero();
         elem.removeClass('bounce');
         setTimeout(() => {elem.addClass('bounce')}, 1);
     },
