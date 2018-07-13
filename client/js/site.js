@@ -1,3 +1,5 @@
+const uuid = require('uuid/v4');
+
 $.ajaxSetup({
 	headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 });
@@ -169,7 +171,7 @@ function DialogController(dialog) {
 
         getInvoice: function () {
             return {
-                uuid: ''.padEnd(16, '1'),
+                uuid: uuid().split('-').join(''),
                 destinations: [
                     {
                         networkId: 42,
