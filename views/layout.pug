@@ -165,7 +165,7 @@ html(lang="en")
       script(src="https://cdn.ravenjs.com/3.25.2/raven.min.js", crossorigin="anonymous")
       script.
           Raven.config('#{config.publicRaven}').install();
-    - js.unshift("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", "https://cdn.jsdelivr.net/npm/bignumber.js@7.2.1/bignumber.min.js", "/js/cookies-eu-banner.min.js", "/js/build/site.js", "/js/build/qrcode.js");
+    - js.unshift("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", "https://cdn.jsdelivr.net/npm/bignumber.js@7.2.1/bignumber.min.js", "/js/cookies-eu-banner.min.js", "/js/build/site.js", "/js/build/qrcode.js", "/js/build/uuid.js");
     each item in [...new Set(js)]
         script(src=item + "?v=" + resourceVersion)
     each item in [...new Set(jsSnippets.concat(jsModSnippets))]

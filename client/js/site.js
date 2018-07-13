@@ -1,7 +1,3 @@
-var require;
-
-const uuid = require('uuid/v4');
-
 $.ajaxSetup({
 	headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 });
