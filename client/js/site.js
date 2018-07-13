@@ -1,3 +1,5 @@
+var require;
+
 const uuid = require('uuid/v4');
 
 $.ajaxSetup({
