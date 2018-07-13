@@ -1,10 +1,11 @@
 const btoa = require('btoa');
 const BigNumber = require('bignumber.js');
 const JSONbig = require('json-bigint');
-const Sqlite3 = require('sqlite3');
+// const Sqlite3 = require('sqlite3');
 const Web3Utils = require("web3-utils");
 
 let paintingManager;
+const fs = require('fs');
 
 const savePixels = function (pixels) {
     pixels.map((pixel) => {
@@ -13,13 +14,30 @@ const savePixels = function (pixels) {
 };
 
 const queryDatabase = function (invoice) {
-    const db = new Sqlite3.Database('path/to/db.sqlite');
-    const nonce = deriveReferenceNonce(invoice);
+    // const db = new Sqlite3.Database('path/to/db.sqlite');
+    const nonce = deriveReferenceNonce(invoice).toString();
+    const amount = invoice.amount.toFixed(0);
 
     return new Promise((resolve, reject) => {
-        db.get(`SELECT nonce FROM transactions WHERE nonce=${nonce}`, (err, data) => {
-            resolve(data !== undefined);
-        })
+        // db.get(`SELECT nonce FROM transactions WHERE nonce=${nonce}`, (err, data) => {
+        //     resolve(data !== undefined);
+        // })
+
+        fs.readFile('tx-db.json', 'utf8', function (err, data) {
+            if (err) {
+                return reject(err);
+            }
+
+            const txMap = new Map(JSON.parse(data));
+            for (let txId of txMap.keys()) {
+                const confirmedTransfer = txMap.get(txId);
+
+                if (confirmedTransfer[0] == nonce && confirmedTransfer[1] == amount) {
+                    return resolve(true);
+                }
+            }
+            return resolve(false);
+        });
     })
 };
 

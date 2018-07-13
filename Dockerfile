@@ -1,13 +1,11 @@
-FROM node:slim
+FROM node:9.11.2
 
 USER root
 WORKDIR /code
 VOLUME /var/log/place
 
 RUN apt-get update \
-	&& apt-get install --no-install-recommends --no-install-suggests -y git build-essential python \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& rm -rf /tmp/*
+	&& apt-get install -y git build-essential python
 
 EXPOSE 3000
 
