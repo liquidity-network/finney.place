@@ -92,8 +92,8 @@ html(lang="en")
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href="https://www.dynastic.co", style="margin-right: -5px")
-            img(src="https://dynastic.co/img/nbicon.png", height="20")
+          a.navbar-brand(href="https://liquidity.network", style="margin-right: -5px")
+            img(src="https://miro.medium.com/fit/c/240/240/1*1Zdhh2Kl58m7779jKWnwtQ.png", height="25")
           a.navbar-brand(href="/")
             | #{config.siteName}
             if config.debug
@@ -102,17 +102,6 @@ html(lang="en")
           ul.nav.navbar-nav
             +getViewExtensions("nav_left")
             +renderNavItem("Home", "/", "home")
-            +getViewExtensions("nav_inside")
-            li.dropdown
-              a.dropdown-toggle(data-toggle="dropdown", href="#", role="button", aria-haspopup="true", aria-expanded="false")
-                i.fa.fa-users.fa-fw
-                .
-                  Community #[span.caret]
-              ul.dropdown-menu
-                +renderNavItem("Official Website", "https://liquidity.network", "university")
-                +renderNavItem("Chat on Telegram", "https://t.me/liquiditynetwork", "telegram")
-                +renderNavItem("Timelapses", "https://timelapse.canvas.place", "clock-o")
-                +renderNavItem("Source Code", "https://www.github.com/dynastic/place", "github")
             if user && userMod
               +renderNavItem(userAdmin ? "Admin" : "Moderator", "/admin", "gavel")
             +getViewExtensions("nav_right")

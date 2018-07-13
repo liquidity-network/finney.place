@@ -1,9 +1,3 @@
-![Dynastic Development](https://github.com/dynastic/assets/raw/master/images/brand.png)
-
-# Dynastic Place
-
-An open-source place alternative, made by [Dynastic Development](https://dynastic.co). Want to chat? Join our [Discord](https://discord.gg/CgC8FTg).
-
 ## Getting started
 
 These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
