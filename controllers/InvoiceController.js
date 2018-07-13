@@ -28,15 +28,20 @@ const queryDatabase = function (invoice) {
                 return reject(err);
             }
 
-            const txMap = new Map(JSON.parse(data));
-            for (let txId of txMap.keys()) {
-                const confirmedTransfer = txMap.get(txId);
+            try {
+                const txMap = new Map(JSON.parse(data));
+                for (let txId of txMap.keys()) {
+                    const confirmedTransfer = txMap.get(txId);
 
-                if (confirmedTransfer[0] == nonce && confirmedTransfer[1] == amount) {
-                    return resolve(true);
+                    if (confirmedTransfer[0] == nonce && confirmedTransfer[1] == amount) {
+                        return resolve(true);
+                    }
                 }
+                return resolve(false);
+            } catch (e) {
+                console.log(`Error Loading TX-DB: ${e}`);
+                return resolve(false);
             }
-            return resolve(false);
         });
     })
 };

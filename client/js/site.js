@@ -172,8 +172,8 @@ function DialogController(dialog) {
                 uuid: uuid().split('-').join(''),
                 destinations: [
                     {
-                        networkId: 42,
-                        contractAddress: '0x182e0AA3FCE28FC6c623C80363841375Fd636E0A',
+                        networkId: 1,
+                        contractAddress: '0xac8c3D5242b425DE1b86b17E407D8E949D994010',
                         walletAddresses: ['0x9CE111255cD6Fbd1E51bfcce71C4D6657862B9eb']
                     }
                 ],
