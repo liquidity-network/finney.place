@@ -493,16 +493,16 @@ const place = {
     initializeSocketConnection() {
         this.socket.on("open", () => {
             if (!this.isOutdated) return;
-            if (Date.now() / 1000 - this.lastPixelUpdate > 60) {
-                // 1 minute has passed
-                console.log("We'll need to get the entire board image because the last update was over a minute ago.");
-                this.loadedImage = false;
-                this.getCanvasImage();
-                this.isOutdated = false;
-            } else {
+            // if (Date.now() / 1000 - this.lastPixelUpdate > 60) {
+            //     // 1 minute has passed
+            //     console.log("We'll need to get the entire board image because the last update was over a minute ago.");
+            //     this.loadedImage = false;
+            //     this.getCanvasImage();
+            //     this.isOutdated = false;
+            // } else {
                 console.log("The last request was a minute or less ago, we can just get the changed pixels over websocket.")
                 this.requestPixelsAfterDate(this.lastPixelUpdate)
-            }
+            // }
         });
 
         this.socket.on("close", () => {
