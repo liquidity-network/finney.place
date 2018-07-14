@@ -515,7 +515,7 @@ const place = {
             server_ready: this.getCanvasImage.bind(this),
             user_change: this.userCountChanged.bind(this),
             admin_broadcast: this.adminBroadcastReceived.bind(this),
-            reload_client: () => window.location.reload(),
+            reload_client: () => {console.log('An update version of the canvas is available')},
         };
 
         Object.keys(events).forEach(eventName => {
