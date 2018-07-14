@@ -107,7 +107,6 @@ const deriveReferenceNonce = (invoice) => {
 exports.submitInvoice = function (req, res, next) {
     paintingManager = this.app.paintingManager;
 
-    req.body.invoice.amount = new BigNumber(req.body.invoice.amount);
     hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 60);
 
     let encodedInvoice = JSONbig.stringify(req.body.invoice);

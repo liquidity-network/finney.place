@@ -177,7 +177,7 @@ function DialogController(dialog) {
                         walletAddresses: ['0x9CE111255cD6Fbd1E51bfcce71C4D6657862B9eb']
                     }
                 ],
-                amount: place.getPrice().toString(),
+                amount: place.getPrice(),
                 currency: 'ETH',
                 details: ''.padEnd(32, '0')
             };
@@ -185,14 +185,8 @@ function DialogController(dialog) {
 
         generateQRCode: function () {
             const transaction = this.getInvoice();
-
-            const data = [
-                transaction.destinations.reduce((acc, dest) => acc + Object.values(dest).join(''), ''),
-                transaction.amount,
-                transaction.currency,
-                transaction.uuid,
-                transaction.custom_fields
-            ].join('');
+            let data = JSONbig.stringify(transaction);
+            data = encodeURIComponent(btoa(data));
 
             const canvas = document.querySelector('#transactionQRCode');
             QRCode.toCanvas(canvas, data, { width: 300 }, function (err) {})
@@ -205,7 +199,7 @@ function DialogController(dialog) {
                 $.ajax({
                     type: 'post',
                     url: '/api/invoice',
-                    data: JSON.stringify({
+                    data: JSONbig.stringify({
                         invoice: transaction,
                         pixels: place.selectedPixels
                     }),
