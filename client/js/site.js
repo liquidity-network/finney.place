@@ -205,7 +205,8 @@ function DialogController(dialog) {
                     }),
                     success: function (data, textStatus, jqXHR) {
                         if (typeof data.redirect === 'string') {
-                            window.location = data.redirect
+                            const w = window.open(data.redirect, '_blank');
+                            w.focus();
                         }
                     },
                     contentType: 'application/json',
