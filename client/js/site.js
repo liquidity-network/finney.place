@@ -183,19 +183,15 @@ function DialogController(dialog) {
             };
         },
 
-        generateQRCode: function () {
-            const transaction = this.getInvoice();
-            let data = JSONbig.stringify(transaction);
-            data = encodeURIComponent(btoa(data));
-
+        generateQRCode: function (redirect) {
+            const data = (new RegExp(/.*\?data=(.*)/)).exec(redirect).slice(-1)[0];
             const canvas = document.querySelector('#transactionQRCode');
             QRCode.toCanvas(canvas, data, { width: 300 }, function (err) {})
         },
 
-        generateWebWalletQuery: function () {
-            const transaction = this.getInvoice();
-            const button = document.querySelector('#webWalletQuery');
-            button.onclick = function () {
+        initiateTransaction: async function () {
+            return new Promise((resolve, reject) => {
+                const transaction = this.getInvoice();
                 $.ajax({
                     type: 'post',
                     url: '/api/invoice',
@@ -205,21 +201,32 @@ function DialogController(dialog) {
                     }),
                     success: function (data, textStatus, jqXHR) {
                         if (typeof data.redirect === 'string') {
-                            const w = window.open(data.redirect, '_blank');
-                            w.focus();
+                            resolve(data.redirect);
+                        } else {
+                            resolve('');
                         }
                     },
                     contentType: 'application/json',
                     dataType: 'json'
+                });
             });
+        },
+
+        generateWebWalletQuery: function (redirect) {
+            const button = document.querySelector('#webWalletQuery');
+            button.onclick = function () {
+                const w = window.open(redirect, '_blank');
+                w.focus();
             }
         },
 
         updateInvoice: function () {
             document.querySelector('#pixelsOrder').value = place.selectedPixels.length;
             document.querySelector('#priceOrder').value = place.getPrice();
-            this.generateQRCode();
-            this.generateWebWalletQuery();
+            this.initiateTransaction().then(redirect => {
+                this.generateQRCode(redirect);
+                this.generateWebWalletQuery(redirect);
+            });
         },
 
         show: function(tab = null) {
