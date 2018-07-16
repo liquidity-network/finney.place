@@ -189,7 +189,7 @@ function DialogController(dialog) {
             QRCode.toCanvas(canvas, data, { width: 300 }, function (err) {})
         },
 
-        initiateTransaction: async function () {
+        initiateTransaction: function () {
             return new Promise((resolve, reject) => {
                 const transaction = this.getInvoice();
                 $.ajax({
