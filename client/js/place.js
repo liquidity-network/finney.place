@@ -548,7 +548,9 @@ const place = {
 
     liveUpdateTile: function (data) {
         this.lastPixelUpdate = Date.now() / 1000;
-        this.setPixel(`#${data.colour}`, data.x, data.y);
+        if (this.selectedPixels.reduce((acc, px) => { return acc && (px.x !== data.x && px.y !== data.y) }, true)) {
+            this.setPixel(`#${data.colour}`, data.x, data.y);
+        }
     },
 
     adminBroadcastReceived: function (data) {
@@ -562,6 +564,8 @@ const place = {
                 document.querySelector('#paymentMethods').classList.add('hidden');
                 document.querySelector('#paymentSuccess').classList.remove('hidden');
             }
+            this.selectedPixels = [];
+            this.changePrice();
         }
     },
 
@@ -1009,7 +1013,7 @@ const place = {
 
     getPrice: function () {
         const pricePerPixel = new BigNumber(1); // In wei
-        return pricePerPixel.times(this.selectedPixels.length);
+        return pricePerPixel.times(this.selectedPixels.filter((px) => px.hex !== px.prevHex).length);
     },
 
     changePrice: function () {
@@ -1165,11 +1169,11 @@ const place = {
         if (this.selectedColour !== null && !this.placing) {
             this.changePlacingModalVisibility(true);
             const hex = this.getCurrentColourHex();
-            const pixel = {x: x, y: y, hex: hex};
+            const pixel = {x: x, y: y, hex: hex, prevHex: this.getPixelColour(x, y)};
 
             let index = undefined;
             this.selectedPixels.map((px, i) => { if (px.x === pixel.x && px.y === pixel.y) index = i });
-            if (index) {
+            if (index !== undefined) {
                 this.selectedPixels[index].hex = pixel.hex
             } else {
                 this.selectedPixels.push(pixel);
@@ -1203,6 +1207,10 @@ const place = {
     setPixel: function (colour, x, y) {
         this.canvasController.setPixel(colour, x, y);
         this.updateDisplayCanvas();
+    },
+
+    getPixelColour: function (x, y) {
+        return `#${this.canvasController.getPixelColour(x, y).toUpperCase()}`
     },
 
     doKeys: function () {
