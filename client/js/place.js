@@ -515,7 +515,10 @@ const place = {
             server_ready: this.getCanvasImage.bind(this),
             user_change: this.userCountChanged.bind(this),
             admin_broadcast: this.adminBroadcastReceived.bind(this),
-            reload_client: () => {console.log('An update version of the canvas is available')},
+            reload_client: () => {
+                console.log('An update version of the canvas is available')
+            },
+            order_received: this.orderReceived.bind(this),
         };
 
         Object.keys(events).forEach(eventName => {
@@ -550,6 +553,16 @@ const place = {
 
     adminBroadcastReceived: function (data) {
         this.showAdminBroadcast(data.title, data.message, data.style || "info", data.timeout || 0);
+    },
+
+    orderReceived: function (data) {
+        if (data !== null &&
+            JSON.stringify(data.pixels) === JSON.stringify(this.selectedPixels)) {
+            if (SignInDialogController.isShowing()) {
+                document.querySelector('#paymentMethods').classList.add('hidden');
+                document.querySelector('#paymentSuccess').classList.remove('hidden');
+            }
+        }
     },
 
     userCountChanged: function (data) {

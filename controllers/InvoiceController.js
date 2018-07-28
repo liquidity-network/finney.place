@@ -5,12 +5,14 @@ const JSONbig = require('json-bigint');
 const Web3Utils = require("web3-utils");
 
 let paintingManager;
+let webSocketServer;
 const fs = require('fs');
 
 const savePixels = function (pixels) {
     pixels.map((pixel) => {
         paintingManager.doPaint(paintingManager.getColourRGB(pixel.hex), pixel.x, pixel.y);
-    })
+    });
+    webSocketServer.broadcast('order_received', { pixels: pixels });
 };
 
 const queryDatabase = function (invoice) {
@@ -56,7 +58,7 @@ const hasTransactionBeenReceived = function (invoice, pixels, count) {
             if (received) {
                 savePixels(pixels);
             } else {
-                setTimeout(() => {hasTransactionBeenReceived(invoice, pixels, count-1)}, 10*1000)
+                setTimeout(() => {hasTransactionBeenReceived(invoice, pixels, count-1)}, 1000)
             }
         })
 };
@@ -106,8 +108,9 @@ const deriveReferenceNonce = (invoice) => {
 
 exports.submitInvoice = function (req, res, next) {
     paintingManager = this.app.paintingManager;
+    webSocketServer = req.place.websocketServer;
 
-    hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 60);
+    hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 10* 60); // 10min = 10 * 60s
 
     let encodedInvoice = JSONbig.stringify(req.body.invoice);
     encodedInvoice = encodeURIComponent(btoa(encodedInvoice));

@@ -15,7 +15,7 @@
                     div.form-row.flex.center
                       label(for="priceOrder") Price in wei
                       input.form-control#priceOrder(type="number", value=10, placeholder="0 WEI", name="price", disabled)
-                    div.flex
+                    div.flex#paymentMethods
                       div.is-6.mr-1
                         p.subhead
                           | Open your&nbsp;
@@ -30,6 +30,10 @@
                           | , you can click here
                         div.flex.center.mt-1
                           button#webWalletQuery.btn.btn-popping.btn-lg.is-12(type="submit", onclick="alert('Not implemented yet')") Web Wallet
+                    div.hidden#paymentSuccess
+                        br
+                        div.alert.alert-success
+                            h4 Your order has been process properly
                 else
                     br
                     div.alert.alert-danger

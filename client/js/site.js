@@ -244,6 +244,8 @@ function DialogController(dialog) {
                 return;
             }
             this.dialog.find("form").trigger("reset");
+            this.dialog.find("#paymentMethods").trigger("hidden");
+            this.dialog.find("#paymentSuccess").trigger("hidden");
             this.dialog.parent().removeClass("show");
             hashHandler.deleteHashKey("d");
         }
