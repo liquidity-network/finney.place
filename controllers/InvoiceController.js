@@ -110,7 +110,7 @@ exports.submitInvoice = function (req, res, next) {
     paintingManager = this.app.paintingManager;
     webSocketServer = req.place.websocketServer;
 
-    hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 10* 60); // 10min = 10 * 60s
+    hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 3 * 24* 60* 60); // 3 days
 
     let encodedInvoice = JSONbig.stringify(req.body.invoice);
     encodedInvoice = encodeURIComponent(btoa(encodedInvoice));
