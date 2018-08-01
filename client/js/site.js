@@ -213,15 +213,21 @@ function DialogController(dialog) {
         },
 
         generateWebWalletQuery: function (redirect) {
-            const button = document.querySelector('#webWalletQuery');
-            button.onclick = function () {
+            const webButton = document.querySelector('#webWalletQuery');
+            webButton.onclick = function () {
                 const w = window.open(redirect, '_blank');
                 w.focus();
-            }
+            };
+            const mobileButton = document.querySelector('#mobileWalletQuery');
+            mobileButton.onclick = function () {
+                const deeplink = `liquiditynet://invoice?${redirect.split('?')[1]}`;
+                const w = window.open(deeplink, '_blank');
+                w.focus();
+            };
         },
 
         updateInvoice: function () {
-            document.querySelector('#pixelsOrder').value = place.selectedPixels.length;
+            document.querySelector('#pixelsOrder').value = place.getPrice();
             document.querySelector('#priceOrder').value = place.getPrice();
             this.initiateTransaction().then(redirect => {
                 this.generateQRCode(redirect);

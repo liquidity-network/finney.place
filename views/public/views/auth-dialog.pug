@@ -16,20 +16,27 @@
                       label(for="priceOrder") Price in wei
                       input.form-control#priceOrder(type="number", value=10, placeholder="0 WEI", name="price", disabled)
                     div.flex#paymentMethods
-                      div.is-6.mr-1
+                      div.is-6.mr-1.is-hidden-touch
                         p.subhead
                           | Open your&nbsp;
                           a(href="https://play.google.com/store/apps/details?id=com.liquiditynetwork.wallet", target="_blank") Liquidity Mobile Wallet (Android)
                           |  to submit this wonderful piece of art of yours
                         div.flex.center
                           canvas#transactionQRCode
-                      div.is-6.ml-1
+                      div.is-6.ml-1.is-hidden-touch
                         p.subhead
                           | If you already have a wallet configure on&nbsp;
-                          a(href="https://wallet.achievement.network", target="_blank") https://wallet.liquidity.network
+                          a(href="https://wallet.liquidity.network", target="_blank") https://wallet.liquidity.network
                           | , you can click here
                         div.flex.center.mt-1
                           button#webWalletQuery.btn.btn-popping.btn-lg.is-12(type="submit", onclick="alert('Not implemented yet')") Web Wallet
+                      div.is-12.ml-1.is-hidden-desktop
+                        p.subhead
+                          | If you already have a liquidity wallet configure on&nbsp;
+                          a(href="https://play.google.com/store/apps/details?id=com.liquiditynetwork.wallet", target="_blank") your mobile
+                          | , you can click here
+                        div.flex.center.mt-1
+                          button#mobileWalletQuery.btn.btn-popping.btn-lg.is-12(type="submit", onclick="alert('Not implemented yet')") Web Wallet
                     div.hidden#paymentSuccess
                         br
                         div.alert.alert-success
