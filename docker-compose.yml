@@ -5,6 +5,9 @@ services:
     image: mongo
     volumes:
       - ./data:/data/db
+    security_opt:
+      - apparmor:unconfined
+      - seccomp:unconfined
   place:
     build: .
     volumes:
