@@ -1,3 +1,5 @@
+import { createInvoice } from 'liquidity-invoice-generation';
+
 $.ajaxSetup({
 	headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 });
@@ -168,19 +170,11 @@ function DialogController(dialog) {
         },
 
         getInvoice: function () {
-            return {
-                uuid: uuid().split('-').join(''),
-                destinations: [
-                    {
-                        networkId: 1,
-                        contractAddress: '0xac8c3D5242b425DE1b86b17E407D8E949D994010',
-                        walletAddresses: ['0x9CE111255cD6Fbd1E51bfcce71C4D6657862B9eb']
-                    }
-                ],
-                amount: place.getPrice(),
-                currency: 'ETH',
-                details: ''.padEnd(32, '0')
-            };
+            return createInvoice({
+              networkId: 4,
+              hubAddress: '0x7e9c7846a22d4D6a8Fde0B586Ab1860B00316611',
+              publicKey: '0x9CE111255cD6Fbd1E51bfcce71C4D6657862B9eb'
+            }, place.getPrice(), ''.padEnd(32, '0'))
         },
 
         generateQRCode: function (redirect) {
