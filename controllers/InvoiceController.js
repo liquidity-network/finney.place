@@ -1,5 +1,4 @@
-const btoa = require('btoa');
-const JSONbig = require('json-bigint');
+const { encodeInvoice } = require('liquidity-invoice-generation');
 // const Sqlite3 = require('sqlite3');
 
 let paintingManager;
@@ -67,8 +66,5 @@ exports.submitInvoice = function (req, res, next) {
 
     hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 3 * 24* 60* 60); // 3 days
 
-    let encodedInvoice = JSONbig.stringify(req.body.invoice);
-    encodedInvoice = encodeURIComponent(btoa(encodedInvoice));
-
-    res.send({ redirect: `https://wallet.liquidity.network/invoice?data=${encodedInvoice}` });
+    res.send({ redirect: `https://wallet.liquidity.network/invoice?data=${encodeInvoice(req.body.invoice)}` });
 };
