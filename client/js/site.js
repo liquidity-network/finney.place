@@ -171,7 +171,7 @@ function DialogController(dialog) {
             return liquidityInvoiceGeneration.createInvoice({
               networkId: 4,
               hubAddress: '0x7e9c7846a22d4D6a8Fde0B586Ab1860B00316611',
-              publicKey: '0x9CE111255cD6Fbd1E51bfcce71C4D6657862B9eb'
+              publicKey: '0x01CD82d2F055ef31C3627026E32f1781EbA48494'
             }, place.getPrice(), ''.padEnd(32, '0'))
         },
 
@@ -204,26 +204,11 @@ function DialogController(dialog) {
             });
         },
 
-        generateWebWalletQuery: function (redirect) {
-            const webButton = document.querySelector('#webWalletQuery');
-            webButton.onclick = function () {
-                const w = window.open(redirect, '_blank');
-                w.focus();
-            };
-            const mobileButton = document.querySelector('#mobileWalletQuery');
-            mobileButton.onclick = function () {
-                const deeplink = `liquiditynet://invoice?${redirect.split('?')[1]}`;
-                const w = window.open(deeplink, '_blank');
-                w.focus();
-            };
-        },
-
         updateInvoice: function () {
             document.querySelector('#pixelsOrder').value = place.getPrice();
             document.querySelector('#priceOrder').value = place.getPrice();
             this.initiateTransaction().then(redirect => {
                 this.generateQRCode(redirect);
-                this.generateWebWalletQuery(redirect);
             });
         },
 

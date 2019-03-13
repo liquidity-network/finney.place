@@ -16,3 +16,11 @@ services:
       - 3000:3000
     depends_on:
       - db
+    environment:
+      - DB_SECRET
+      - ETHEREUM_NODE_URL 
+      - HUB_CONTRACT_ADDRESS
+      - HUB_PROVIDER_URL
+      - FINNEY_PLACE_ADDRESS
+      - NODE_ENV="production"
+      - ONLY_LISTEN_LOCAL="false"

@@ -1,9 +1,30 @@
 const { encodeInvoice } = require('liquidity-invoice-generation');
-// const Sqlite3 = require('sqlite3');
+const btoa = require('btoa');
+const JSONbig = require('json-bigint');
+const { NocustManager } = require('nocust-client')
+const Web3 = require('web3')
 
 let paintingManager;
 let webSocketServer;
 const fs = require('fs');
+
+
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETHEREUM_NODE_URL));
+const nocustManager = new NocustManager({
+    rpcApi: web3,
+    hubApiUrl: process.env.HUB_PROVIDER_URL,
+    contractAddress: process.env.HUB_CONTRACT_ADDRESS,
+    });
+const pendingInvoices = new Map()
+
+const unsub = nocustManager.subscribeToIncomingTransfer(process.env.FINNEY_PLACE_ADDRESS, tx => {
+    console.log(`Incoming transaction from ${tx.wallet.address} of ${tx.amount}, nonce ${tx.nonce}`)
+
+    if(pendingInvoices.has(parseInt(tx.nonce)) && pendingInvoices.get(parseInt(tx.nonce)).amount == tx.amount) {
+        console.log("Invoice matched")
+        savePixels(pendingInvoices.get(parseInt(tx.nonce)).pixels)
+    }
+})
 
 const savePixels = function (pixels) {
     pixels.map((pixel) => {
@@ -12,59 +33,15 @@ const savePixels = function (pixels) {
     webSocketServer.broadcast('order_received', { pixels: pixels });
 };
 
-const queryDatabase = function (invoice) {
-    // const db = new Sqlite3.Database('path/to/db.sqlite');
-    const nonce = invoice.nonce;
-    const amount = invoice.amount.toFixed(0);
-
-    return new Promise((resolve, reject) => {
-        // db.get(`SELECT nonce FROM transactions WHERE nonce=${nonce}`, (err, data) => {
-        //     resolve(data !== undefined);
-        // })
-
-        fs.readFile('tx-db.json', 'utf8', function (err, data) {
-            if (err) {
-                return reject(err);
-            }
-
-            try {
-                const txMap = new Map(JSON.parse(data));
-                for (let txId of txMap.keys()) {
-                    const confirmedTransfer = txMap.get(txId);
-
-                    if (confirmedTransfer[0] == nonce && confirmedTransfer[1] == amount) {
-                        return resolve(true);
-                    }
-                }
-                return resolve(false);
-            } catch (e) {
-                console.log(`Error Loading TX-DB: ${e}`);
-                return resolve(false);
-            }
-        });
-    })
-};
-
-const hasTransactionBeenReceived = function (invoice, pixels, count) {
-    if (count === 0) {
-        return false;
-    }
-
-    queryDatabase(invoice)
-        .then(received => {
-            if (received) {
-                savePixels(pixels);
-            } else {
-                setTimeout(() => {hasTransactionBeenReceived(invoice, pixels, count-1)}, 1000)
-            }
-        })
-};
-
 exports.submitInvoice = function (req, res, next) {
     paintingManager = this.app.paintingManager;
     webSocketServer = req.place.websocketServer;
-
-    hasTransactionBeenReceived(req.body.invoice, req.body.pixels, 3 * 24* 60* 60); // 3 days
-
+    
+    const nonce = req.body.invoice.nonce;
+    const amount = req.body.invoice.amount.toFixed(0);
+    console.log(`Invoice submited, nonce: ${nonce}, for amount ${amount}`)
+    
+    pendingInvoices.set(nonce, {amount: amount, pixels: req.body.pixels})
+    
     res.send({ redirect: `https://wallet.liquidity.network/invoice?data=${encodeInvoice(req.body.invoice)}` });
 };
