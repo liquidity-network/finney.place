@@ -1,16 +1,16 @@
 # node/js
 node_modules/
-config/config.js
 place.paw
 public/js/build
 public/css/build
 util/legit.js
 util/legit.*.js
 views/legit.*
-config/community_guidelines.md
-config/privacy_policy.md
-config/tos.md
 modules/*
+
+# Docker
+
+.env
 
 ### Linux ###
 *~
