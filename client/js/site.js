@@ -1,5 +1,3 @@
-import { createInvoice } from 'liquidity-invoice-generation';
-
 $.ajaxSetup({
 	headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
 });
@@ -170,7 +168,7 @@ function DialogController(dialog) {
         },
 
         getInvoice: function () {
-            return createInvoice({
+            return liquidityInvoiceGeneration.createInvoice({
               networkId: 4,
               hubAddress: '0x7e9c7846a22d4D6a8Fde0B586Ab1860B00316611',
               publicKey: '0x9CE111255cD6Fbd1E51bfcce71C4D6657862B9eb'
