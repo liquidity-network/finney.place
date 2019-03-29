@@ -13,7 +13,7 @@ block dependencies
     - if (typeof user === "undefined") user = null;
     - var userAdmin = user ? user.admin : false;
     - var pageTitle = !!pageTitle ? pageTitle + " &middot; Admin" : "Admin";
-    - var css = ["/css/dashboard.css", "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css"].concat(typeof css === "undefined" ? [] : css);
+    - var css = [`${process.env.WEBROOT}/css/dashboard.css`, "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css"].concat(typeof css === "undefined" ? [] : css);
     - var js = ["https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"].concat(typeof js === "undefined" ? [] : js);
     - var isAdmin = true;
 block content

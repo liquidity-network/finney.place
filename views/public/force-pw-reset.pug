@@ -1,7 +1,7 @@
 extends ../layout
 block dependencies
     - var pageTitle = "Reset your Password";
-    - var css = ["/css/signin.css"];
+    - var css = [`${process.env.WEBROOT}/css/signin.css`];
     - if (typeof error === "undefined") error = null;
 block content
     .container

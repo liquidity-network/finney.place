@@ -6,9 +6,9 @@ block dependencies
     - var boardImageCorrection = (1000 / config.boardSize) * 4;
     - var pageTitle = isSelf ? "Account Details" : `${profileUser.name}'s Profile`;
     - var pageDesc = isSelf ? `View information about your ${config.siteName} account.` : `View ${profileUser.name}'s profile on ${config.siteName}.`;
-    - var css = ["/css/dashboard.css", "/css/profile.css"];
+    - var css = [`${process.env.WEBROOT}/css/dashboard.css`, `${process.env.WEBROOT}/css/profile.css`];
     - var navbarSupportsTopMode = !!profileUserInfo.latestPixel;
-    - js = ["/js/tooltip.js", "/js/build/account.js", "https://cdn.rawgit.com/rmm5t/jquery-timeago/180864a9c544a49e43719b457250af216d5e4c3a/jquery.timeago.js"];
+    - js = [`${process.env.WEBROOT}/js/tooltip.js`, `${process.env.WEBROOT}/js/build/account.js`, "https://cdn.rawgit.com/rmm5t/jquery-timeago/180864a9c544a49e43719b457250af216d5e4c3a/jquery.timeago.js"];
     - jsModSnippets = [`  $(document).ready(function() {
     -    $("#profile-mod-tools-ctn").html(renderUserActions(${JSON.stringify(profileUser)}));
     -  });`];

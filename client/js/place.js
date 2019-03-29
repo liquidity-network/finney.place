@@ -65,7 +65,7 @@ const notificationHandler = {
 
     setup: function () {
         if (navigator.serviceWorker) {
-            navigator.serviceWorker.register("/js/build/sw.js");
+            navigator.serviceWorker.register(`${process.env.WEBROOT}/js/build/sw.js`);
             this.supportsNewNotificationAPI = true;
         }
     },

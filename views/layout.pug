@@ -43,12 +43,12 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
     title !{pageTitle != null ? `${pageTitle} &middot; ` : ""}#{config.siteName}#{config.debug ? " (debug)" : ""}
     // Icons and web app config
-    link(rel="apple-touch-icon", href="/img/apple-touch-icon.png")
-    link(rel="icon", type="image/png", sizes="16x16", href="/img/favicon-16x16.png?n=1")
-    link(rel="icon", type="image/png", sizes="32x32", href="/img/favicon-32x32.png?n=1")
-    link(rel="icon", type="image/png", sizes="96x96", href="/img/favicon-96x96.png?n=1")
-    link(rel="icon", type="image/x-icon", sizes="16x16", href="/img/favicon.ico?n=1")
-    link(rel="shortcut icon", type="image/x-icon", sizes="16x16", href="/img/favicon.ico?n=1")
+    link(rel="apple-touch-icon", href=`${process.env.WEBROOT}/img/apple-touch-icon.png`)
+    link(rel="icon", type="image/png", sizes="16x16", href=`${process.env.WEBROOT}/img/favicon-16x16.png?n=1`)
+    link(rel="icon", type="image/png", sizes="32x32", href=`${process.env.WEBROOT}/img/favicon-32x32.png?n=1`)
+    link(rel="icon", type="image/png", sizes="96x96", href=`${process.env.WEBROOT}/img/favicon-96x96.png?n=1`)
+    link(rel="icon", type="image/x-icon", sizes="16x16", href=`${process.env.WEBROOT}/img/favicon.ico?n=1`)
+    link(rel="shortcut icon", type="image/x-icon", sizes="16x16", href=`${process.env.WEBROOT}/img/favicon.ico?n=1`)
     if pinnable
       meta(name="apple-mobile-web-app-capable", content="yes")
       meta(name="apple-mobile-web-app-status-bar-style", content="default")
@@ -57,10 +57,10 @@ html(lang="en")
     if pageTitle
       meta(property="og:site_name", content=config.siteName)
     meta(property="og:url", content=config.host)
-    meta(property="og:image", content="/img/apple-touch-icon.png")
+    meta(property="og:image", content=`${process.env.WEBROOT}/img/apple-touch-icon.png`)
     meta(property="twitter:card", content="summary")
     meta(property="twitter:title", content=`${config.siteName}${pageTitle != null ? `: ${pageTitle}` : ""}`)
-    meta(property="twitter:image", content="/img/apple-touch-icon.png")
+    meta(property="twitter:image", content=`${process.env.WEBROOT}/img/apple-touch-icon.png`)
     if pageDesc
       meta(property="og:description", content=pageDesc)
       meta(property="twitter:description", content=pageDesc)
@@ -72,7 +72,7 @@ html(lang="en")
     link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet")
     link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet")
     // Provided CSS
-    - css.unshift("/css/global.css")
+    - css.unshift(`${process.env.WEBROOT}/css/global.css`)
     each item in [...new Set(css)]
       link(href=item + "?v=" + resourceVersion, rel="stylesheet")
     +getViewExtensions("head")
@@ -129,7 +129,7 @@ html(lang="en")
 - if(typeof js === "undefined" || !js) js = [];
 - if(typeof jsSnippets === "undefined" || !jsSnippets) jsSnippets = [];
 - var userAdmin = user ? user.admin : false, userMod = user ? user.moderator || userAdmin : false;
-- if(userMod) { js.unshift("/js/bootbox.min.js"); js.unshift("/js/build/mod_tools.js");}
+- if(userMod) { js.unshift(`${process.env.WEBROOT}/js/bootbox.min.js`); js.unshift(`${process.env.WEBROOT}/js/build/mod_tools.js`);}
 - if(typeof jsModSnippets === "undefined" || !jsModSnippets || !userMod) jsModSnippets = [];
 - js = resources.js.concat(js);
     footer.footer
@@ -154,7 +154,7 @@ html(lang="en")
       script(src="https://cdn.ravenjs.com/3.25.2/raven.min.js", crossorigin="anonymous")
       script.
           Raven.config('#{config.publicRaven}').install();
-    - js.unshift("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", "https://cdn.jsdelivr.net/npm/bignumber.js@7.2.1/bignumber.min.js", "/js/cookies-eu-banner.min.js", "/js/build/site.js", "/js/build/qrcode.js", "/js/build/liquidityInvoiceGeneration.js", "/js/build/uuid.js", "/js/build/json-bigint.js");
+    - js.unshift("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", "https://cdn.jsdelivr.net/npm/bignumber.js@7.2.1/bignumber.min.js", `${process.env.WEBROOT}/js/cookies-eu-banner.min.js`, `${process.env.WEBROOT}/js/build/site.js`, `${process.env.WEBROOT}/js/build/qrcode.js`, `${process.env.WEBROOT}/js/build/liquidityInvoiceGeneration.js`, `${process.env.WEBROOT}/js/build/uuid.js`, `${process.env.WEBROOT}/js/build/json-bigint.js`);
     each item in [...new Set(js)]
         script(src=item + "?v=" + resourceVersion)
     each item in [...new Set(jsSnippets.concat(jsModSnippets))]
