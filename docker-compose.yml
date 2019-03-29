@@ -17,7 +17,6 @@ services:
     depends_on:
       - db
     environment:
-      - WEBROOT
       - DB_SECRET
       - ETHEREUM_NODE_URL 
       - HUB_CONTRACT_ADDRESS
