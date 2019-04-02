@@ -169,9 +169,9 @@ function DialogController(dialog) {
 
         getInvoice: function () {
             return liquidityInvoiceGeneration.createInvoice({
-              networkId: 4,
-              hubAddress: '0x7e9c7846a22d4D6a8Fde0B586Ab1860B00316611',
-              publicKey: '0x01CD82d2F055ef31C3627026E32f1781EbA48494'
+              networkId: '<ENV::NETWORK_ID>',
+              hubAddress: '<ENV::HUB_CONTRACT_ADDRESS>',
+              publicKey: '<ENV::FINNEY_PLACE_ADDRESS>'
             }, place.getPrice(), ''.padEnd(32, '0'))
         },
 

@@ -4,11 +4,11 @@ const babel = require("gulp-babel");
 const sourcemaps = require('gulp-sourcemaps');
 const changed = require('gulp-changed');
 const del = require("del");
-
+const injectEnvs = require("./InjectEnvs");
 class JavaScriptProcessor {
     constructor(app) {
         this.app = app;
-        
+        this.env = process.env;
         this.paths = {
             scripts: {
                 built: "public/js/build",
@@ -28,7 +28,7 @@ class JavaScriptProcessor {
         // Process JavaScript
         gulp.task("scripts", (cb) => {
             this.app.logger.info('Babel', "Processing JavaScript…");
-            var t = gulp.src(this.paths.scripts.src);
+            var t = gulp.src(this.paths.scripts.src).pipe(injectEnvs(this.env));
             t = t.pipe(changed(this.paths.scripts.built))
             t = t.pipe(sourcemaps.init());
             t = t.pipe(babel({ presets: ["es2015", "es2016", "es2017"] }));

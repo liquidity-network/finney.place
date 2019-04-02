@@ -22,5 +22,6 @@ services:
       - HUB_CONTRACT_ADDRESS
       - HUB_PROVIDER_URL
       - FINNEY_PLACE_ADDRESS
+      - NETWORK_ID
       - NODE_ENV="production"
       - ONLY_LISTEN_LOCAL="false"
