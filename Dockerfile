@@ -1,4 +1,4 @@
-FROM node:9.11.2
+FROM node:9-stretch
 
 USER root
 WORKDIR /code
