@@ -1,7 +1,7 @@
 const { encodeInvoice } = require('liquidity-invoice-generation');
 const btoa = require('btoa');
 const JSONbig = require('json-bigint');
-const { NocustManager } = require('nocust-client')
+const { NOCUSTManager } = require('nocust-client')
 const Web3 = require('web3')
 
 let paintingManager;
@@ -10,9 +10,9 @@ const fs = require('fs');
 
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETHEREUM_NODE_URL));
-const nocustManager = new NocustManager({
+const nocustManager = new NOCUSTManager({
     rpcApi: web3,
-    hubApiUrl: process.env.HUB_PROVIDER_URL,
+    operatorApiUrl: process.env.HUB_PROVIDER_URL,
     contractAddress: process.env.HUB_CONTRACT_ADDRESS,
     });
 const pendingInvoices = new Map()
