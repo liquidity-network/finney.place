@@ -4461,9 +4461,9 @@ nocache@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/nocache/-/nocache-2.0.0.tgz#202b48021a0c4cbde2df80de15a17443c8b43980"
 
-nocust-client@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/nocust-client/-/nocust-client-1.0.5.tgz#9633169721c2b25f5b68a6aaad791f7c0756a196"
+nocust-client@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/nocust-client/-/nocust-client-2.0.3.tgz#e13f8fbe1f05a74d75bcc1cdd818fb365d77efaa"
   dependencies:
     "@types/node" "^9.6.39"
     "@types/request" "^2.48.1"
