@@ -3,6 +3,7 @@ const btoa = require('btoa');
 const JSONbig = require('json-bigint');
 const { NOCUSTManager } = require('nocust-client')
 const Web3 = require('web3')
+const BigNumber = require('bignumber.js');
 
 let paintingManager;
 let webSocketServer;
@@ -16,13 +17,19 @@ const nocustManager = new NOCUSTManager({
     contractAddress: process.env.HUB_CONTRACT_ADDRESS,
     });
 const pendingInvoices = new Map()
+const PRICE_PER_PIXEL = new BigNumber(1).shiftedBy(12)
 
 const unsub = nocustManager.subscribeToIncomingTransfer(process.env.FINNEY_PLACE_ADDRESS, tx => {
     console.log(`Incoming transaction from ${tx.wallet.address} of ${tx.amount}, nonce ${tx.nonce}`)
 
     if(pendingInvoices.has(parseInt(tx.nonce)) && pendingInvoices.get(parseInt(tx.nonce)).amount == tx.amount) {
-        console.log("Invoice matched")
-        savePixels(pendingInvoices.get(parseInt(tx.nonce)).pixels)
+        const {pixels} = pendingInvoices.get(parseInt(tx.nonce))
+        const pixelsCount = pixels.filter((px) => px.hex !== px.prevHex).length;
+        const amountValid = tx.amount >=  PRICE_PER_PIXEL * pixelsCount;
+        if(amountValid){
+            console.log("Invoice matched")
+            savePixels(pendingInvoices.get(parseInt(tx.nonce)).pixels)
+        }
     }
 })
 

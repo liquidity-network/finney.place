@@ -1011,9 +1011,14 @@ const place = {
         }
     },
 
+    getPixelsCount: function (){
+        return this.selectedPixels.filter((px) => px.hex !== px.prevHex).length;
+    },
+
     getPrice: function () {
-        const pricePerPixel = new BigNumber(1); // In wei
-        return pricePerPixel.times(this.selectedPixels.filter((px) => px.hex !== px.prevHex).length);
+        BigNumber.config({ EXPONENTIAL_AT: 5 });
+        const pricePerPixel = new BigNumber(1).shiftedBy(12); // In wei
+        return pricePerPixel.times(this.getPixelsCount());
     },
 
     changePrice: function () {

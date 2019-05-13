@@ -205,7 +205,7 @@ function DialogController(dialog) {
         },
 
         updateInvoice: function () {
-            document.querySelector('#pixelsOrder').value = place.getPrice();
+            document.querySelector('#pixelsOrder').value = place.getPixelsCount();
             document.querySelector('#priceOrder').value = place.getPrice();
             this.initiateTransaction().then(redirect => {
                 this.generateQRCode(redirect);
