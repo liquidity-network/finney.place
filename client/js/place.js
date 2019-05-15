@@ -1015,17 +1015,16 @@ const place = {
         return this.selectedPixels.filter((px) => px.hex !== px.prevHex).length;
     },
 
-    getPrice: function () {
-        BigNumber.config({ EXPONENTIAL_AT: 5 });
-        const pricePerPixel = new BigNumber(1).shiftedBy(12); // In wei
+    getPrice: function (isEther) {
+        const pricePerPixel = isEther? new BigNumber(1).shiftedBy(-6) : new BigNumber(1).shiftedBy(12);
         return pricePerPixel.times(this.getPixelsCount());
     },
 
     changePrice: function () {
         const elem = $(this.priceButton);
         elem.show();
-        const price = this.getPrice();
-        elem.text(`${price.toString()} wei`);
+        const price = this.getPrice(true);
+        elem.text(`${price.toString()} ETH`);
         document.querySelector('.btn-nav-auth-link').disabled = price.isZero();
         elem.removeClass('bounce');
         setTimeout(() => {elem.addClass('bounce')}, 1);
