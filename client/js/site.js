@@ -168,11 +168,15 @@ function DialogController(dialog) {
         },
 
         getInvoice: function () {
-            return liquidityInvoiceGeneration.createInvoice({
-              networkId: '<ENV::NETWORK_ID>',
-              hubAddress: '<ENV::HUB_CONTRACT_ADDRESS>',
-              publicKey: '<ENV::FINNEY_PLACE_ADDRESS>'
-            }, place.getPrice(), ''.padEnd(32, '0'))
+            const invoice =  liquidityInvoiceGeneration.createInvoice({
+              network: '<ENV::NETWORK_ID>',
+              publicKey: '<ENV::FINNEY_PLACE_ADDRESS>',
+              operatorAddress: '<ENV::HUB_CONTRACT_ADDRESS>',
+              amount: place.getPrice().toString(),
+              generateId: true
+            })
+            
+            return invoice;
         },
 
         generateQRCode: function (redirect) {
