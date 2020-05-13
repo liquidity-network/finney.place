@@ -1,0 +1,28 @@
+{
+  "name": "ultra-strftime",
+  "version": "1.0.2",
+  "description": "Ultra fast realization of javascript strftime function without memory leak",
+  "author": "Petr Shalkov <mApostol@yandex.ru>",
+  "main": "./ultra-strftime.js",
+  "homepage": "https://github.com/xio4/ultra_strftime",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/xio4/ultra_strftime"
+},
+  "bugs": {
+  "url": "https://github.com/xio4/ultra_strftime/issues"
+},
+  "keywords": [
+  "ultrafast",
+  "strftime",
+  "format",
+  "date"
+],
+  "files": [
+    "ultra-strftime.js",
+    "LICENSE"
+    
+  ],
+  
+  "license": "MIT"
+}
