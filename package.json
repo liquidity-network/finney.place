@@ -20,7 +20,7 @@
     "eslint-plugin-standard": "^2.0.1"
   },
   "dependencies": {
-    "bcrypt": "^1.0.2",
+    "bcrypt": "^5.0.0",
     "bignumber.js": "^7.2.1",
     "body-parser": "^1.17.1",
     "browserify": "^14.1.0",
