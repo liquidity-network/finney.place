@@ -43,7 +43,7 @@
     "json-bigint": "^0.3.0",
     "jwt-simple": "^0.5.1",
     "liquidity-invoice-generation": "2.0.0",
-    "marked": "^0.3.6",
+    "marked": "^4.0.10",
     "md5": "^2.2.1",
     "mongoose": "^4.9.2",
     "mongoose-datatables": "github:applebetas/mongoose-datatables",
