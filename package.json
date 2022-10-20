@@ -45,7 +45,7 @@
     "liquidity-invoice-generation": "2.0.0",
     "marked": "^0.3.6",
     "md5": "^2.2.1",
-    "mongoose": "^4.9.2",
+    "mongoose": "^4.13.21",
     "mongoose-datatables": "github:applebetas/mongoose-datatables",
     "morgan": "^1.8.1",
     "pajk-lwip": "0.2.0",
